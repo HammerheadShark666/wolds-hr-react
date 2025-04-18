@@ -73,7 +73,7 @@ const employeeSearchSlice = createSlice({
       })
       .addCase(searchEmployeeRecords.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to load data';
+        state.error = 'Failed to load employees'; //action.error.message || 
       }) 
   },
 });

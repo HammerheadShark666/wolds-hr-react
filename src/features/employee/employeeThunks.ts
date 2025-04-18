@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Employee } from '../../types/employee';
 import axios from '../../api/axiosInstance'; 
 import { updateEmployeeInEmployees, addEmployeeToEmployees, updateEmployeePhotoInEmployees } from '../employee/employeeListSlice'
+import { handleError } from '../../helpers/errorHandlingHelper';
  
 type ApiEmployeePagingResponse = {
   employees: Employee[]
@@ -11,23 +12,30 @@ type ApiEmployeePagingResponse = {
 }
  
 export const searchEmployeeRecords = createAsyncThunk<ApiEmployeePagingResponse, { keyword: string; page: number, pageSize: number }>
-  ('search/searchRecords', async ({ keyword, page, pageSize }) => {
-    const response = await axios.get(`/employees/search?keyword=${keyword}&page=${page}&pageSize=${pageSize}`)
-  return response.data;
+  ('search/searchRecordsc', async ({ keyword, page, pageSize } , { rejectWithValue }) => {
+    try     
+    {
+      const response = await axios.get(`/employees/search?keyword=${keyword}&page=${page}&pageSize=${pageSize}`)
+      return response.data;
+    } 
+    catch (error: any) 
+    { 
+      return handleError(error, rejectWithValue); 
+    }
 })
    
 export const addEmployee = createAsyncThunk('employee/addEmployee',
   async (employee: Employee, { rejectWithValue, dispatch }) => {
   
     try     
-    {      
+    { 
       const response = await axios.post( '/employees/add', employee);
       dispatch(addEmployeeToEmployees(response.data));
       return response.data; 
     } 
     catch (error: any) 
     { 
-      return rejectWithValue(error.response.data.errors || error.message);
+      return handleError(error, rejectWithValue); 
     }
   }
 );
@@ -43,7 +51,7 @@ export const updateEmployee = createAsyncThunk('employee/updateEmployee',
     } 
     catch (error: any) 
     { 
-      return rejectWithValue(error.response.data.errors || error.message);
+      return handleError(error, rejectWithValue); 
     }
   }
 );
@@ -57,7 +65,7 @@ export const deleteEmployee = createAsyncThunk('employees/deleteEmployee',
     } 
     catch (error: any) 
     { 
-      return rejectWithValue(error.response.data.errors || error.message);
+      return handleError(error, rejectWithValue); 
     }
   }
 );  
@@ -81,7 +89,7 @@ export const updateEmployeePhoto = createAsyncThunk('employee/updateEmployeePhot
     } 
     catch (error: any) 
     { 
-      return rejectWithValue(error.response.data.errors || error.message);
+      return handleError(error, rejectWithValue); 
     }
   }
 );

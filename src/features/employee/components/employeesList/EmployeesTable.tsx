@@ -49,7 +49,7 @@ const EmployeesTable = ({ rows, setShowEmployeePopForm, showEmployeePopForm }: I
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return <p>{error}</p>;
   } 
   
   return (

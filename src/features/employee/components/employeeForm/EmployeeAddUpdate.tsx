@@ -79,7 +79,7 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopForm }) => {
     }
     catch(error)
     {
-      console.error('Error submitting employee:', error);
+      console.log('Error submitting employee:', error);
     }    
   };
  
