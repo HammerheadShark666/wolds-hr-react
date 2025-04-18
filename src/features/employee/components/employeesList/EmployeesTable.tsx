@@ -5,21 +5,21 @@ import { AppDispatch, RootState } from "../../../../app/store";
 import { setSelectedEmployee } from "../../employeeSlice";
 import styles from "../../css/Employees-list.module.css"; 
 import EmployeePopupForm from "../employeeForm/EmployeePopupForm";
+import EmployeePhoto from "./EmployeePhoto";
 
-type Props = {
+interface IProps {
   rows: Employee[];
   setShowEmployeePopForm: React.Dispatch<React.SetStateAction<boolean>>;
   showEmployeePopForm: boolean; 
 };  
   
-const DataTable = ({ rows, setShowEmployeePopForm, showEmployeePopForm }: Props) => {
+const EmployeesTable = ({ rows, setShowEmployeePopForm, showEmployeePopForm }: IProps) => {
 
   const dispatch = useDispatch<AppDispatch>();
   const [openMenu, setOpenMenu] = useState<number | null>(null);
   const menuRef = useRef<HTMLDivElement>(null); 
-  const { employees, loading, error } = useSelector((state: RootState) => state.employeeList);  
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const { employees, loading, error } = useSelector((state: RootState) => state.employeeList);
+   
   const handleRowClick = (employee: Employee) => { 
     dispatch(setSelectedEmployee(employee));
   };
@@ -33,18 +33,7 @@ const DataTable = ({ rows, setShowEmployeePopForm, showEmployeePopForm }: Props)
     setOpenMenu(0);
     alert(employeeId)
   }
-
-  const handlePhotoClick = (employeeId: number) => {
-    fileInputRef.current?.click();
-  }
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      console.log('Selected file:', file.name);
-    }
-  };
-      
+ 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -80,18 +69,8 @@ const DataTable = ({ rows, setShowEmployeePopForm, showEmployeePopForm }: Props)
         {employees.map((employee) => {           
           return (
             <tr key={employee.id} onClick={() => handleRowClick(employee)}>
-              <td className={styles["employee-photo-cell"]}><img src={ employee.photo !== "" ? `/images/employees/${employee.photo}` : "/images/employees/default.png"} 
-                  alt={`${employee.firstName} ${employee.surname}`} className={styles["circle-img"]} 
-                  onError={(e) => {
-                    e.currentTarget.src = "/images/employees/default.png";
-                  }} onClick={() => handlePhotoClick(employee.id)} />
-
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                    style={{ display: 'none' }}
-                  />
+              <td className={styles["employee-photo-cell"]}>              
+                <EmployeePhoto employee={employee}></EmployeePhoto>
               </td>
               <td>{employee.id}</td>
               <td>{employee.firstName} {employee.surname}</td> 
@@ -120,4 +99,4 @@ const DataTable = ({ rows, setShowEmployeePopForm, showEmployeePopForm }: Props)
   )
 };
   
-export default DataTable;
+export default EmployeesTable;

@@ -1,26 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'; 
 import { Employee } from '../../types/employee';
 import { addEmployee, deleteEmployee, updateEmployee } from './employeeThunks';
- 
-// Define the initial state using that type
-interface EmployeeState {
-  employees: Employee[];
+  
+interface EmployeeState { 
   selectedEmployee: Employee | null;
+  employeePhotoFilename: string | null;
   loading: boolean;
   error: string | null;
   validationErrors: string[] | null;
 }
-
-// Initial state of the slice
-const initialState: EmployeeState = {
-  employees: [],
+ 
+const initialState: EmployeeState = { 
   selectedEmployee: null,
+  employeePhotoFilename: null,
   loading: false,
   error: null,
   validationErrors: null
 };
- 
-// Create the employee slice
+  
 const employeeSlice = createSlice({
   name: 'employee',
   initialState,
@@ -39,8 +36,7 @@ const employeeSlice = createSlice({
         state.error = null;
       })
       .addCase(addEmployee.fulfilled, (state, action) => {
-        state.loading = false;
-        state.employees.push(action.payload);
+        state.loading = false; 
         state.selectedEmployee = null;
       })
       .addCase(addEmployee.rejected, (state, action) => {
@@ -64,8 +60,7 @@ const employeeSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteEmployee.fulfilled, (state, action) => {
-        state.loading = false;
-        state.employees = state.employees.filter((t) => t.id !== action.payload);
+        state.loading = false; 
         state.selectedEmployee = null;
       })
       .addCase(deleteEmployee.rejected, (state, action) => {
