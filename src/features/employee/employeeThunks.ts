@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Employee } from '../../types/employee';
 import axios from '../../api/axiosInstance'; 
-import { updateEmployeeInList } from '../employee/employeeListSlice'
+import { updateEmployeeInEmployees, addEmployeeToEmployees, updateEmployeePhotoInEmployees } from '../employee/employeeListSlice'
  
 type ApiEmployeePagingResponse = {
   employees: Employee[]
@@ -17,11 +17,12 @@ export const searchEmployeeRecords = createAsyncThunk<ApiEmployeePagingResponse,
 })
    
 export const addEmployee = createAsyncThunk('employee/addEmployee',
-  async (employee: Employee, { rejectWithValue}) => {
+  async (employee: Employee, { rejectWithValue, dispatch }) => {
   
     try     
     {      
       const response = await axios.post( '/employees/add', employee);
+      dispatch(addEmployeeToEmployees(response.data));
       return response.data; 
     } 
     catch (error: any) 
@@ -37,7 +38,7 @@ export const updateEmployee = createAsyncThunk('employee/updateEmployee',
     try 
     {      
       const response = await axios.put( '/employees/update', employee);
-      dispatch(updateEmployeeInList(response.data));
+      dispatch(updateEmployeeInEmployees(response.data));
       return response.data; 
     } 
     catch (error: any) 
@@ -52,6 +53,30 @@ export const deleteEmployee = createAsyncThunk('employees/deleteEmployee',
 
     try {          
       const response = await axios.delete('/employees/' + employeeId);      
+      return response.data; 
+    } 
+    catch (error: any) 
+    { 
+      return rejectWithValue(error.response.data.errors || error.message);
+    }
+  }
+);  
+
+export const updateEmployeePhoto = createAsyncThunk('employee/updateEmployeePhoto',
+  async ({ id, file }: { id: number; file: File }, { rejectWithValue, dispatch }) => {
+  
+    try 
+    {     
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await axios.post(`/employees/upload-photo/${id}`, formData, {
+        headers: {
+          'Content-Type': undefined
+        }
+      }); 
+
+      dispatch(updateEmployeePhotoInEmployees(response.data));
       return response.data; 
     } 
     catch (error: any) 

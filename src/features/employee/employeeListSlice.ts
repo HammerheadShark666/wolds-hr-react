@@ -2,6 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { searchEmployeeRecords } from './employeeThunks';
 import { Employee } from '../../types/employee'; 
 
+interface IUpdatePhotoResponse {
+  id: number,
+  filename: string
+}
+
 interface TableState {
   employees: Employee[];
   totalPages: number;
@@ -39,10 +44,18 @@ const employeeSearchSlice = createSlice({
       state.totalEmployees = 0;
       state.page = 0;
     },
-    updateEmployeeInList: (state, action: PayloadAction<Employee>) => {
+    updateEmployeeInEmployees: (state, action: PayloadAction<Employee>) => {
       state.employees = state.employees.map(emp =>
         emp.id === action.payload.id ? action.payload : emp
       );
+    },
+    updateEmployeePhotoInEmployees: (state, action: PayloadAction<IUpdatePhotoResponse>) => {
+      state.employees = state.employees.map(emp => 
+        emp.id === action.payload.id ? { ...emp, photo: action.payload.filename } : emp
+      );
+    },
+    addEmployeeToEmployees: (state, action: PayloadAction<Employee>) => {
+      state.employees.push(action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -61,9 +74,9 @@ const employeeSearchSlice = createSlice({
       .addCase(searchEmployeeRecords.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to load data';
-      })
+      }) 
   },
 });
 
-export const { setSearch, setPage, clearEmployees, updateEmployeeInList } = employeeSearchSlice.actions;
+export const { setSearch, setPage, clearEmployees, updateEmployeeInEmployees, addEmployeeToEmployees, updateEmployeePhotoInEmployees } = employeeSearchSlice.actions;
 export default employeeSearchSlice.reducer;
