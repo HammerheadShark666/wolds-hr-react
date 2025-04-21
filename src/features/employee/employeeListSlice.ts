@@ -57,6 +57,9 @@ const employeeSearchSlice = createSlice({
     addEmployeeToEmployees: (state, action: PayloadAction<Employee>) => {
       state.employees.push(action.payload);
     },
+    removeEmployeeFromEmployees: (state, action: PayloadAction<number>) => {
+      state.employees = state.employees.filter(emp => emp.id !== action.payload);
+    },
     updateEmployeesState: (state) => {
       if(state.employees.length === 1)
       {
@@ -86,5 +89,6 @@ const employeeSearchSlice = createSlice({
   },
 });
 
-export const { setSearch, setPage, clearEmployees, updateEmployeeInEmployees, addEmployeeToEmployees, updateEmployeePhotoInEmployees, updateEmployeesState } = employeeSearchSlice.actions;
+export const { setSearch, setPage, clearEmployees, updateEmployeeInEmployees, addEmployeeToEmployees, 
+                      updateEmployeePhotoInEmployees, updateEmployeesState, removeEmployeeFromEmployees } = employeeSearchSlice.actions;
 export default employeeSearchSlice.reducer;

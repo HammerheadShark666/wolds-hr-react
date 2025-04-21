@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Employee } from '../../types/employee';
 import axios from '../../api/axiosInstance'; 
-import { updateEmployeeInEmployees, addEmployeeToEmployees, updateEmployeePhotoInEmployees } from '../employee/employeeListSlice'
+import { updateEmployeeInEmployees, addEmployeeToEmployees, updateEmployeePhotoInEmployees, removeEmployeeFromEmployees } from '../employee/employeeListSlice'
 import { handleError } from '../../helpers/errorHandlingHelper';
  
 type ApiEmployeePagingResponse = {
@@ -57,10 +57,11 @@ export const updateEmployee = createAsyncThunk('employee/updateEmployee',
 );
 
 export const deleteEmployee = createAsyncThunk('employees/deleteEmployee',
-  async (employeeId: number, { rejectWithValue }) => {
+  async (employeeId: number, { rejectWithValue, dispatch }) => {
 
     try {          
-      const response = await axios.delete('/employees/' + employeeId);      
+      const response = await axios.delete('/employees/' + employeeId);  
+      dispatch(removeEmployeeFromEmployees(employeeId));    
       return response.data; 
     } 
     catch (error: any) 

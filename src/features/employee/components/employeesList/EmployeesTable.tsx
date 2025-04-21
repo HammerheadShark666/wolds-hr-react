@@ -6,6 +6,7 @@ import { setSelectedEmployee } from "../../employeeSlice";
 import styles from "../../css/Employees-list.module.css"; 
 import EmployeePopupForm from "../employeeForm/EmployeePopupForm";
 import EmployeePhoto from "./EmployeePhoto";
+import { deleteEmployee } from "../../employeeThunks";
 
 interface IProps {
   rows: Employee[];
@@ -31,7 +32,10 @@ const EmployeesTable = ({ rows, setShowEmployeePopForm, showEmployeePopForm }: I
 
   const handleDeleteClick = (employeeId: number) => {
     setOpenMenu(0);
-    alert(employeeId)
+    const confirmed = window.confirm("Are you sure you want to delete this employee?");
+    if (confirmed) { 
+      dispatch(deleteEmployee(employeeId));
+    }
   }
  
   useEffect(() => {
