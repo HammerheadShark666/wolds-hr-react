@@ -57,6 +57,14 @@ const employeeSearchSlice = createSlice({
     addEmployeeToEmployees: (state, action: PayloadAction<Employee>) => {
       state.employees.push(action.payload);
     },
+    updateEmployeesState: (state) => {
+      if(state.employees.length === 1)
+      {
+        state.totalPages = 1;
+        state.totalEmployees = 1;
+        state.page = 1;
+      }
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -73,10 +81,10 @@ const employeeSearchSlice = createSlice({
       })
       .addCase(searchEmployeeRecords.rejected, (state, action) => {
         state.loading = false;
-        state.error = 'Failed to load employees'; //action.error.message || 
+        state.error = 'Failed to load employees';
       }) 
   },
 });
 
-export const { setSearch, setPage, clearEmployees, updateEmployeeInEmployees, addEmployeeToEmployees, updateEmployeePhotoInEmployees } = employeeSearchSlice.actions;
+export const { setSearch, setPage, clearEmployees, updateEmployeeInEmployees, addEmployeeToEmployees, updateEmployeePhotoInEmployees, updateEmployeesState } = employeeSearchSlice.actions;
 export default employeeSearchSlice.reducer;

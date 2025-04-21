@@ -13,9 +13,11 @@ import InputText from "../../../../components/InputText";
 import InputEmail from "../../../../components/InputEmail";
 import InputDate from "../../../../components/InputDate";
 import InputSelect from "../../../../components/InputSelect";
-import styles from "../../../employee/css/Employee-form.module.css";
-import ValidationError from "../../../../components/ValidationErrors";
-
+import styles from "../../../employee/css/Employee-form.module.css"; 
+import ErrorToast from "../../../../components/ErrorToasts";
+import { toast } from "react-toastify";
+import { Employee } from "../../../../types/employee";
+import { updateEmployeesState } from "../../employeeListSlice";
   
 type FormData = z.infer<typeof employeeSchema>;
 
@@ -40,7 +42,7 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopForm }) => {
     resolver: zodResolver(employeeSchema),
   });
 
-  function populateEmployee(data: FormData, id: number) {
+  function populateEmployee(data: FormData, id: number) : Employee { 
     return { 
       id: id,
       surname: data.surname.trim(),
@@ -52,8 +54,8 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopForm }) => {
       phoneNumber: data.phoneNumber ? data.phoneNumber : null,
       photo: "",
       department: null
-    } 
-  } 
+    }  
+  }  
 
   const onClose = () => {
     dispatch(setSelectedEmployee(null));
@@ -67,14 +69,19 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopForm }) => {
 
       var resultAction = null;
       dispatch(clearValidationErrors());
-
-      if(selectedEmployee != null)       
-        resultAction = await dispatch(updateEmployee(populateEmployee(data, selectedEmployee.id)));  
+      toast.dismiss(); 
+      
+      if (selectedEmployee != null)
+        resultAction = await dispatch(updateEmployee(populateEmployee(data, selectedEmployee?.id )));      
       else     
         resultAction = await dispatch(addEmployee(populateEmployee(data, 0)));       
       
       unwrapResult(resultAction);
       setShowEmployeePopForm(false);
+
+      if (selectedEmployee == null)
+        dispatch(updateEmployeesState());
+
       reset();      
     }
     catch(error)
@@ -85,7 +92,8 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopForm }) => {
  
   useEffect(() => {
 
-    if(selectedEmployee != null) {
+    function setFormData(selectedEmployee: Employee)
+    {
       setValue('surname', selectedEmployee.surname);
       setValue('firstName', selectedEmployee.firstName);
       setValue('phoneNumber', selectedEmployee.phoneNumber);
@@ -93,6 +101,10 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopForm }) => {
       setValue('departmentId', selectedEmployee.departmentId);
       setValue("dateOfBirth", selectedEmployee.dateOfBirth ?? null);
       setValue("hireDate", selectedEmployee.hireDate ?? null); 
+    }
+
+    if(selectedEmployee != null) {
+      setFormData(selectedEmployee); 
     } 
     else 
     { 
@@ -108,8 +120,8 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopForm }) => {
   return (     
     <div>
       <h2 className={styles["h2"]}>{ selectedEmployee == null ? "Add Employee" : "Update Employee" }</h2>
-      {loading && <p>Adding employee...</p>}  
-      <ValidationError validationErrors={validationErrors}></ValidationError>
+      {loading && <p>Adding employee...</p>}   
+      <ErrorToast errors={validationErrors} /> 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-container"> 
           <InputText name="surname"  control={control}  label="Surname"  error={errors.surname}></InputText>    
