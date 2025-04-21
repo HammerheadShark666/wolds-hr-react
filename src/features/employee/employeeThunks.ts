@@ -65,8 +65,8 @@ export const deleteEmployee = createAsyncThunk('employees/deleteEmployee',
       return response.data; 
     } 
     catch (error: any) 
-    { 
-      return handleError(error, rejectWithValue); 
+    {  
+      return handleError(error, rejectWithValue);  
     }
   }
 );  

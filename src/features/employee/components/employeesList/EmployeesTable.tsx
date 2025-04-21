@@ -35,6 +35,7 @@ const EmployeesTable = ({ rows, setShowEmployeePopForm, showEmployeePopForm }: I
     const confirmed = window.confirm("Are you sure you want to delete this employee?");
     if (confirmed) { 
       dispatch(deleteEmployee(employeeId));
+      dispatch(setSelectedEmployee(null));
     }
   }
  
