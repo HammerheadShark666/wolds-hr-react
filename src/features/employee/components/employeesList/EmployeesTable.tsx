@@ -18,7 +18,7 @@ const EmployeesTable = ({ rows, setShowEmployeePopForm, showEmployeePopForm }: I
   const dispatch = useDispatch<AppDispatch>();
   const [openMenu, setOpenMenu] = useState<number | null>(null);
   const menuRef = useRef<HTMLDivElement>(null); 
-  const { employees, loading, error } = useSelector((state: RootState) => state.employeeList);
+  const { employees, loading } = useSelector((state: RootState) => state.employeeList);
    
   const handleRowClick = (employee: Employee) => { 
     dispatch(setSelectedEmployee(employee));
@@ -46,10 +46,6 @@ const EmployeesTable = ({ rows, setShowEmployeePopForm, showEmployeePopForm }: I
 
   if (loading) {
     return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error}</p>;
   } 
   
   return (

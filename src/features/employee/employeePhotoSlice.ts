@@ -32,7 +32,7 @@ const employeePhotoSlice = createSlice({
       })
       .addCase(updateEmployeePhoto.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to load data';
+        state.error = action.error.message || 'Failed to save employee photo';
       });
   }
 });

@@ -7,21 +7,27 @@ import Employees from './features/employee/pages/Employees';
 import Employment from "./features/employment/pages/Employment";
 import Home from "./features/home/pages/Home"; 
 import Jobs from './features/job/pages/Jobs';
+import GlobalErrorBoundary from './components/GlobalErrorBoundary';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Layout>
-        <Provider store={store}>
-        <Routes>
-          <Route path="/" element={<Home />} /> 
-          <Route path="/employees" element={<Employees />} /> 
-          <Route path="/employment" element={<Employment />} /> 
-          <Route path="/jobs" element={<Jobs />} /> 
-        </Routes>
-        </Provider>
-      </Layout>
-  </BrowserRouter>
+    <GlobalErrorBoundary>
+      <BrowserRouter>
+        <Layout>
+          <Provider store={store}>
+          <Routes>
+            <Route path="/" element={<Home />} /> 
+            <Route path="/employees" element={<Employees />} /> 
+            <Route path="/employment" element={<Employment />} /> 
+            <Route path="/jobs" element={<Jobs />} /> 
+          </Routes>
+          </Provider>
+          <ToastContainer></ToastContainer>
+        </Layout>
+      </BrowserRouter>
+    </GlobalErrorBoundary>
   );
 }
 
