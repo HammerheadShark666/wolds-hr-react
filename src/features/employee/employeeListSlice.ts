@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { searchEmployeeRecords } from './employeeThunks';
+import { deleteEmployee, searchEmployeeRecords } from './employeeThunks';
 import { Employee } from '../../types/employee'; 
 
 interface IUpdatePhotoResponse {
@@ -86,6 +86,17 @@ const employeeSearchSlice = createSlice({
         state.loading = false;
         state.error = 'Failed to load employees';
       }) 
+      .addCase(deleteEmployee.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteEmployee.fulfilled, (state, action) => {
+        state.loading = false;  
+      })
+      .addCase(deleteEmployee.rejected, (state, action) => {
+        state.loading = false;
+        state.error = (action.payload as string) || 'Failed to delete employee';     
+      });
   },
 });
 

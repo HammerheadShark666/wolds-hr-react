@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'; 
 import { Employee } from '../../types/employee';
-import { addEmployee, deleteEmployee, updateEmployee } from './employeeThunks';
+import { addEmployee, updateEmployee } from './employeeThunks';
   
 interface EmployeeState { 
   selectedEmployee: Employee | null;
@@ -54,19 +54,7 @@ const employeeSlice = createSlice({
       .addCase(updateEmployee.rejected, (state, action) => {
         state.loading = false;
         state.validationErrors = (action.payload as string[]) || ['Failed to update employee'];
-      })
-      .addCase(deleteEmployee.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(deleteEmployee.fulfilled, (state, action) => {
-        state.loading = false; 
-        state.selectedEmployee = null;
-      })
-      .addCase(deleteEmployee.rejected, (state, action) => {
-        state.loading = false;
-        state.validationErrors = (action.payload as string[]) || ['Failed to delete employee'];     
-      });
+      })     
   }
 });
 
