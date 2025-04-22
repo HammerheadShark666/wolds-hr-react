@@ -91,7 +91,8 @@ const employeeSearchSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteEmployee.fulfilled, (state, action) => {
-        state.loading = false;  
+        state.loading = false; 
+        state.totalEmployees = state.totalEmployees - 1;
       })
       .addCase(deleteEmployee.rejected, (state, action) => {
         state.loading = false;

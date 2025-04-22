@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from "../../css/Employee-list-toolbar.module.css";
 import { Search } from 'lucide-react';
 import EmployeePopupForm from '../employeeForm/EmployeePopupForm';
 import { setSelectedEmployee } from '../../employeeSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../../app/store';
+import { importEmployees } from '../../employeeThunks';
 
 type Props = {
   onSearch: (keyword: string) => void;
@@ -26,6 +27,27 @@ const ToolBar = ({ onSearch, setShowEmployeePopForm, showEmployeePopForm }: Prop
     dispatch(setSelectedEmployee(null));
     setShowEmployeePopForm(true);
   }
+ 
+
+ 
+  const fileInputRef = useRef<HTMLInputElement>(null); 
+
+  const handleImportEmployeesClick = () => {
+    fileInputRef.current?.click();
+  }
+  
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    
+    const file = event.target.files?.[0];
+    if (file) {        
+      dispatch(importEmployees({file}));
+    }
+  };
+
+
+
+
+
 
   useEffect(() => {
     document.getElementById('search')?.focus();
@@ -48,7 +70,13 @@ const ToolBar = ({ onSearch, setShowEmployeePopForm, showEmployeePopForm }: Prop
         </div>
         <div className={styles["toolbar-buttons"]}>      
           <button type="button" onClick={handleAddEmployeeClick}>Add New Employee</button>   
-          <button type="button">Import Employees</button>
+          <button type="button" onClick={handleImportEmployeesClick}>Import Employees</button>
+          <input
+              type="file"
+              ref={fileInputRef} 
+              onChange={handleFileChange}
+              style={{ display: 'none' }}
+            />   
         </div>
       </div>
       {showEmployeePopForm && <EmployeePopupForm setShowEmployeePopForm={setShowEmployeePopForm} />}

@@ -94,3 +94,27 @@ export const updateEmployeePhoto = createAsyncThunk('employee/updateEmployeePhot
     }
   }
 );
+
+export const importEmployees = createAsyncThunk('employee/import',
+  async ({ file }: { file: File }, { rejectWithValue, dispatch }) => {
+  
+    try 
+    {     
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await axios.post(`/employees/import`, formData, {
+        headers: {
+          'Content-Type': undefined
+        }
+      }); 
+
+      //dispatch(employeeImported(response.data));
+      return response.data; 
+    } 
+    catch (error: any) 
+    { 
+      return handleError(error, rejectWithValue); 
+    }
+  }
+);
