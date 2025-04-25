@@ -10,6 +10,7 @@ import Jobs from './features/job/pages/Jobs';
 import GlobalErrorBoundary from './components/GlobalErrorBoundary';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import EmployeesImport from './features/employee/pages/EmployeesImport';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} /> 
             <Route path="/employees" element={<Employees />} /> 
+            <Route path="/employees-import" element={<EmployeesImport />} /> 
             <Route path="/employment" element={<Employment />} /> 
             <Route path="/jobs" element={<Jobs />} /> 
           </Routes>

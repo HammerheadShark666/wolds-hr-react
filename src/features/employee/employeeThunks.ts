@@ -12,7 +12,7 @@ type ApiEmployeePagingResponse = {
 }
  
 export const searchEmployeeRecords = createAsyncThunk<ApiEmployeePagingResponse, { keyword: string; page: number, pageSize: number }>
-  ('search/searchRecordsc', async ({ keyword, page, pageSize } , { rejectWithValue }) => {
+  ('search/searchRecords', async ({ keyword, page, pageSize } , { rejectWithValue }) => {
     try     
     {
       const response = await axios.get(`/employees/search?keyword=${keyword}&page=${page}&pageSize=${pageSize}`)
@@ -110,6 +110,9 @@ export const importEmployees = createAsyncThunk('employee/import',
       }); 
 
       //dispatch(employeeImported(response.data));
+
+      console.log(response.data)
+
       return response.data; 
     } 
     catch (error: any) 
@@ -118,3 +121,17 @@ export const importEmployees = createAsyncThunk('employee/import',
     }
   }
 );
+  
+export const searchImportedEmployees = createAsyncThunk<ApiEmployeePagingResponse, { importDate: string; page: number, pageSize: number }>
+  ('search/searchImportedRecords', async ({ importDate, page, pageSize } , { rejectWithValue }) => {
+    try     
+    {
+      const response = await axios.get(`/employees/imported?importDate=${importDate.split('T')[0]}&page=${page}&pageSize=${pageSize}`)
+      return response.data;
+    } 
+    catch (error: any) 
+    { 
+      return handleError(error, rejectWithValue); 
+    }
+})
+
