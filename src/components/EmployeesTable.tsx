@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"; 
 import { useDispatch, useSelector } from "react-redux"; 
-import styles from "./EmployeesTable.module.css";    
+import styles from "./css/EmployeesTable.module.css";    
 import { Employee } from "../types/employee";
 import { AppDispatch, RootState } from "../app/store";
 import EmployeePhoto from "./EmployeePhoto";
@@ -86,18 +86,19 @@ const EmployeesTable = ({ rows, setShowEmployeePopUpForm, showEmployeePopUpForm 
                   {openMenu === employee.id && (
                     <div ref={menuRef} className={styles["employee-list-actions-menu"]}>
                       <div className={styles["employee-list-actions-menu-item"]} onClick={() => onEditClick()}>Edit</div>
-                      <div className={styles["employee-list-actions-menu-item"]} onClick={() => onDeleteClick(employee.id)}>Delete</div>
-                      {/* <div className={styles["employee-list-actions-menu-item"]}>{showEmployeePopUpForm === true ? <h1>show</h1> : <h3>hide</h3>}</div> */}
-                      {showEmployeePopUpForm && <EmployeePopupForm setShowEmployeePopUpForm={setShowEmployeePopUpForm} />}
+                      <div className={styles["employee-list-actions-menu-item"]} onClick={() => onDeleteClick(employee.id)}>Delete</div> 
                     </div>
-                  )}
+                  )} 
                 </div>
               </td> 
             </tr>   
           );
         })}
       </tbody>
-    </table>
+      {showEmployeePopUpForm && (
+        <EmployeePopupForm setShowEmployeePopUpForm={setShowEmployeePopUpForm} />
+      )}
+    </table>    
   )
 };
   

@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"; 
 import { useDispatch, useSelector } from "react-redux"; 
-import styles from "./EmployeesTable.module.css";  
+import styles from "./css/EmployeesTable.module.css";  
 import { AppDispatch, RootState } from "../app/store";
 import { Employee } from "../types/employee";
 import { updateEmployeePhoto } from "../features/employee/employeeThunks";

@@ -1,4 +1,4 @@
-import styles from "./Pagination.module.css"
+import styles from "./css/Pagination.module.css"
 
 type Props = {
   totalPages: number;

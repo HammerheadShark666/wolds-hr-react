@@ -8,10 +8,10 @@ interface IProps {
 
 const PopupForm: React.FC<IProps> = ({ setShowEmployeePopUpForm }) => {
 
-  return (
-    <div className={styles["overlay"]}>
-      <div className={styles["popup"]}> 
-        <EmployeeAddUpdate setShowEmployeePopUpForm={setShowEmployeePopUpForm} ></EmployeeAddUpdate> 
+  return ( 
+    <div className={styles["popup-form-overlay"]}>
+      <div className={styles["popup-form"]}>   
+        <EmployeeAddUpdate setShowEmployeePopUpForm={setShowEmployeePopUpForm} ></EmployeeAddUpdate>   
       </div>
     </div>
   );

@@ -118,7 +118,7 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopUpForm }) => {
   );
     
   return (     
-    <div>
+    <>
       <h2 className={styles["h2"]}>{ selectedEmployee == null ? "Add Employee" : "Update Employee" }</h2>
       {loading && <p>Adding employee...</p>}   
       <ErrorToast errors={validationErrors} /> 
@@ -137,7 +137,7 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopUpForm }) => {
           </div>
         </div>  
       </form>    
-    </div>    
+    </>    
   )
 } 
 
