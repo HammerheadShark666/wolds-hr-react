@@ -1,7 +1,11 @@
-import { BriefcaseBusiness, Calendar1, CircleUserRound, House } from "lucide-react";
+import { BriefcaseBusiness, Calendar1, CircleUserRound, House, LogOut } from "lucide-react";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./css/Sidebar.module.css";  
+import { useAppDispatch } from "../app/hooks";
+import { logout } from "../features/authentication/authenticationSlice"; 
+import { clearEmployees } from "../features/employee/employeeListSlice";
+import { clearSelectedEmployee } from "../features/employee/employeeSlice";
 
 interface IProps {
   isOpen: boolean;
@@ -9,6 +13,18 @@ interface IProps {
 };
 
 const Sidebar: React.FC<IProps> = ({ isOpen, onClose }) => {
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+     
+  const logoutUser = () => {
+    dispatch(logout()); 
+    dispatch(clearEmployees());
+    dispatch(clearSelectedEmployee());
+    
+    navigate('/login');
+  };
+
   return (
     <> 
       {isOpen && <div className={styles["overlay"]} onClick={onClose} />} 
@@ -26,10 +42,11 @@ const Sidebar: React.FC<IProps> = ({ isOpen, onClose }) => {
           <li><NavLink to="/employees-import" className={({ isActive }) => `${styles["sidebarLink"]} ${isActive ? styles["active"] : ""}`}><CircleUserRound /><span>Employees (Import)</span></NavLink></li>    
           <li><NavLink to="/employment" className={({ isActive }) => `${styles["sidebarLink"]} ${isActive ? styles["active"] : ""}`}> <Calendar1 /><span>Employment</span></NavLink></li>           
           <li><NavLink to="/jobs" className={({ isActive }) => `${styles["sidebarLink"]} ${isActive ? styles["active"] : ""}`}> <BriefcaseBusiness /><span>Jobs</span></NavLink></li>   
+          <li><NavLink to="#" onClick={logoutUser}><LogOut /><span>Logout</span></NavLink></li>
         </ul>
       </aside>
     </>
   );
 };
 
-export default Sidebar;
+export default Sidebar; 

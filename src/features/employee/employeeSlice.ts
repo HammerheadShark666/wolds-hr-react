@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'; 
 import { Employee } from '../../types/employee';
-import { addEmployee, updateEmployee } from './employeeThunks';
-  
+import { addEmployee, updateEmployee } from './employeeThunks'; 
+
 interface EmployeeState { 
   selectedEmployee: Employee | null;
   employeePhotoFilename: string | null;
@@ -28,6 +28,10 @@ const employeeSlice = createSlice({
     clearValidationErrors: (state) => {
       state.validationErrors = null;
     },
+    clearSelectedEmployee: (state) => {
+      state.selectedEmployee = null;
+      state.employeePhotoFilename = null;
+    }
   },
   extraReducers: (builder) => {
     builder     
@@ -58,5 +62,5 @@ const employeeSlice = createSlice({
   }
 });
 
-export const { setSelectedEmployee, clearValidationErrors } = employeeSlice.actions;
+export const { setSelectedEmployee, clearValidationErrors, clearSelectedEmployee } = employeeSlice.actions;
 export default employeeSlice.reducer;
