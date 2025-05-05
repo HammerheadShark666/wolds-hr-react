@@ -38,6 +38,13 @@
   border: 1px solid rgba(2, 2, 22, 0.4);
 }
 
+.pagination-container .button-selected {
+  background-color: rgba(114, 114, 124, 0.4);
+  border: none; 
+  border: 1px solid rgba(2, 2, 22, 0.4);
+  height: 35px;
+}
+
 .number-of-pages {
   display: flex;
   align-items: center;

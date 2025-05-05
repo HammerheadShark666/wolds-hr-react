@@ -3,15 +3,15 @@ import EmployeeAddUpdate from "./EmployeeAddUpdate";
 import styles from "../../../employee/css/Employee-form.module.css";
 
 interface IProps {
-  setShowEmployeePopForm: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowEmployeePopUpForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const PopupForm: React.FC<IProps> = ({ setShowEmployeePopForm }) => {
+const PopupForm: React.FC<IProps> = ({ setShowEmployeePopUpForm }) => {
 
-  return (
-    <div className={styles["overlay"]}>
-      <div className={styles["popup"]}> 
-        <EmployeeAddUpdate setShowEmployeePopForm={setShowEmployeePopForm} ></EmployeeAddUpdate> 
+  return ( 
+    <div className={styles["popup-form-overlay"]}>
+      <div className={styles["popup-form"]}>   
+        <EmployeeAddUpdate setShowEmployeePopUpForm={setShowEmployeePopUpForm} ></EmployeeAddUpdate>   
       </div>
     </div>
   );

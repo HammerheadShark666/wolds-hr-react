@@ -1,36 +1,36 @@
-import { useEffect, useRef, useState } from "react";
-import { Employee } from "../../../../types/employee";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../../app/store";
-import { setSelectedEmployee } from "../../employeeSlice";
-import styles from "../../css/Employees-list.module.css"; 
-import EmployeePopupForm from "../employeeForm/EmployeePopupForm";
+import { useEffect, useRef, useState } from "react"; 
+import { useDispatch, useSelector } from "react-redux"; 
+import styles from "./css/EmployeesTable.module.css";    
+import { Employee } from "../types/employee";
+import { AppDispatch, RootState } from "../app/store";
 import EmployeePhoto from "./EmployeePhoto";
-import { deleteEmployee } from "../../employeeThunks";
+import EmployeePopupForm from "../features/employee/components/employeeForm/EmployeePopupForm";
+import { deleteEmployee } from "../features/employee/employeeThunks";
+import { setSelectedEmployee } from "../features/employee/employeeSlice";
 
 interface IProps {
   rows: Employee[];
-  setShowEmployeePopForm: React.Dispatch<React.SetStateAction<boolean>>;
-  showEmployeePopForm: boolean; 
+  setShowEmployeePopUpForm: React.Dispatch<React.SetStateAction<boolean>>;
+  showEmployeePopUpForm: boolean; 
 };  
   
-const EmployeesTable = ({ rows, setShowEmployeePopForm, showEmployeePopForm }: IProps) => {
+const EmployeesTable = ({ rows, setShowEmployeePopUpForm, showEmployeePopUpForm }: IProps) => {
 
   const dispatch = useDispatch<AppDispatch>();
   const [openMenu, setOpenMenu] = useState<number | null>(null);
   const menuRef = useRef<HTMLDivElement>(null); 
-  const { employees, loading } = useSelector((state: RootState) => state.employeeList);
-   
-  const handleRowClick = (employee: Employee) => { 
+  const { loading } = useSelector((state: RootState) => state.employeeList);
+    
+  const onEditClick = () => {  
+    setShowEmployeePopUpForm(true);
+    setOpenMenu(0);
+  } 
+
+  const onRowClick = (employee: Employee) => { 
     dispatch(setSelectedEmployee(employee));
   };
 
-  const handleEditClick = () => { 
-    setShowEmployeePopForm(true);
-    setOpenMenu(0);
-  }
-
-  const handleDeleteClick = (employeeId: number) => {
+  const onDeleteClick = (employeeId: number) => {
     setOpenMenu(0);
     const confirmed = window.confirm("Are you sure you want to delete this employee?");
     if (confirmed) { 
@@ -42,7 +42,7 @@ const EmployeesTable = ({ rows, setShowEmployeePopForm, showEmployeePopForm }: I
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setOpenMenu(null);
+        setOpenMenu(0);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);    
@@ -67,9 +67,9 @@ const EmployeesTable = ({ rows, setShowEmployeePopForm, showEmployeePopForm }: I
         </tr>
     </thead>
     <tbody>
-        {employees.map((employee) => {           
+        {rows.map((employee) => {           
           return (
-            <tr key={employee.id} onClick={() => handleRowClick(employee)}>
+            <tr key={employee.id} onClick={() => onRowClick(employee)}>
               <td className={styles["employee-photo-cell"]}>              
                 <EmployeePhoto employee={employee}></EmployeePhoto>
               </td>
@@ -85,18 +85,20 @@ const EmployeesTable = ({ rows, setShowEmployeePopForm, showEmployeePopForm }: I
                   </button>
                   {openMenu === employee.id && (
                     <div ref={menuRef} className={styles["employee-list-actions-menu"]}>
-                      <div className={styles["employee-list-actions-menu-item"]} onClick={() => handleEditClick()}>Edit</div>
-                      <div className={styles["employee-list-actions-menu-item"]} onClick={() => handleDeleteClick(employee.id)}>Delete</div>
-                      {showEmployeePopForm && <EmployeePopupForm setShowEmployeePopForm={setShowEmployeePopForm} />}
+                      <div className={styles["employee-list-actions-menu-item"]} onClick={() => onEditClick()}>Edit</div>
+                      <div className={styles["employee-list-actions-menu-item"]} onClick={() => onDeleteClick(employee.id)}>Delete</div> 
                     </div>
-                  )}
+                  )} 
                 </div>
               </td> 
             </tr>   
           );
         })}
       </tbody>
-    </table>
+      {showEmployeePopUpForm && (
+        <EmployeePopupForm setShowEmployeePopUpForm={setShowEmployeePopUpForm} />
+      )}
+    </table>    
   )
 };
   

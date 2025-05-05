@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './PopupMessage.module.css'
+import styles from './css/PopupMessage.module.css'
 
 interface IProps {
   message: string;

@@ -2,7 +2,7 @@
 
 import { Controller } from "react-hook-form"; 
 import { Department } from "../types/department";
-import styles from "./Input.module.css" 
+import styles from "./css/Input.module.css" 
 
 interface IProps {  
     name: string;

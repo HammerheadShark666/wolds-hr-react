@@ -30,6 +30,9 @@
 .toolbar-buttons {
   display: flex;
   gap: 0.5rem;
+  align-items: end;
+  flex-direction: column;
+  width: 100%; 
 }
 
 /* .toolbar-buttons button {

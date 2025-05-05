@@ -1,11 +1,11 @@
-import { useRef, useState } from "react";
-import { Employee } from "../../../../types/employee";
-import { AppDispatch, RootState } from "../../../../app/store";
-import { useDispatch, useSelector } from "react-redux";
-import { updateEmployeePhoto } from "../../employeeThunks";
-import styles from "../../css/Employees-list.module.css"; 
-import { getEmployeePhotoUrl } from "../../../../helpers/imageHelper";
-import PopupMessage from "../../../../components/PopupMessage";
+import { useRef, useState } from "react"; 
+import { useDispatch, useSelector } from "react-redux"; 
+import styles from "./css/EmployeesTable.module.css";  
+import { AppDispatch, RootState } from "../app/store";
+import { Employee } from "../types/employee";
+import { updateEmployeePhoto } from "../features/employee/employeeThunks";
+import { getEmployeePhotoUrl } from "../helpers/imageHelper";
+import PopupMessage from "./PopupMessage";
 
 interface IProps {
   employee: Employee; 
@@ -47,7 +47,7 @@ const EmployeePhoto = ({ employee }: IProps) => {
         alt={`${employee.firstName} ${employee.surname}`} className={styles["circle-img"]} 
         onError={(e) => {
 
-          const fallbackUrl = '/images/employees/default.png'; // Make sure this exists in your public folder
+          const fallbackUrl = '/images/employees/default.png';
           if (e.currentTarget.src !== window.location.origin + fallbackUrl) {
             e.currentTarget.src = fallbackUrl;
           } 

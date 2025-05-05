@@ -9,7 +9,7 @@
   margin-top: 1rem;
 }
 
-.overlay {
+.popup-form-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -22,9 +22,9 @@
   z-index: 2000;
 }
 
-.popup {
+.popup-form {
   background-color: #fff;
   padding: 2rem;
   border-radius: 8px;
-  min-width: 300px   
+  min-width: 300px;
 }

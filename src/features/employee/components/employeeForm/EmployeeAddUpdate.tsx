@@ -22,10 +22,10 @@ import { updateEmployeesState } from "../../employeeListSlice";
 type FormData = z.infer<typeof employeeSchema>;
 
 interface IProps { 
-  setShowEmployeePopForm: React.Dispatch<React.SetStateAction<boolean>>; 
+  setShowEmployeePopUpForm: React.Dispatch<React.SetStateAction<boolean>>; 
 };
 
-const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopForm }) => {
+const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopUpForm }) => {
 
   const dispatch = useAppDispatch();
 
@@ -60,7 +60,7 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopForm }) => {
   const onClose = () => {
     dispatch(setSelectedEmployee(null));
     dispatch(clearValidationErrors());
-    setShowEmployeePopForm(false);
+    setShowEmployeePopUpForm(false);
   }
 
   const onSubmit = async (data: FormData) => {    
@@ -77,7 +77,7 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopForm }) => {
         resultAction = await dispatch(addEmployee(populateEmployee(data, 0)));       
       
       unwrapResult(resultAction);
-      setShowEmployeePopForm(false);
+      setShowEmployeePopUpForm(false);
 
       if (selectedEmployee == null)
         dispatch(updateEmployeesState());
@@ -118,7 +118,7 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopForm }) => {
   );
     
   return (     
-    <div>
+    <>
       <h2 className={styles["h2"]}>{ selectedEmployee == null ? "Add Employee" : "Update Employee" }</h2>
       {loading && <p>Adding employee...</p>}   
       <ErrorToast errors={validationErrors} /> 
@@ -137,7 +137,7 @@ const EmployeeAddUpdate: React.FC<IProps> = ({ setShowEmployeePopForm }) => {
           </div>
         </div>  
       </form>    
-    </div>    
+    </>    
   )
 } 
 

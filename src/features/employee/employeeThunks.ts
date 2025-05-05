@@ -12,7 +12,7 @@ type ApiEmployeePagingResponse = {
 }
  
 export const searchEmployeeRecords = createAsyncThunk<ApiEmployeePagingResponse, { keyword: string; page: number, pageSize: number }>
-  ('search/searchRecordsc', async ({ keyword, page, pageSize } , { rejectWithValue }) => {
+  ('search/searchRecords', async ({ keyword, page, pageSize } , { rejectWithValue }) => {
     try     
     {
       const response = await axios.get(`/employees/search?keyword=${keyword}&page=${page}&pageSize=${pageSize}`)
@@ -94,3 +94,44 @@ export const updateEmployeePhoto = createAsyncThunk('employee/updateEmployeePhot
     }
   }
 );
+
+export const importEmployees = createAsyncThunk('employee/import',
+  async ({ file }: { file: File }, { rejectWithValue, dispatch }) => {
+  
+    try 
+    {     
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await axios.post(`/employees/import`, formData, {
+        headers: {
+          'Content-Type': undefined
+        }
+      }); 
+
+      //dispatch(employeeImported(response.data));
+
+      console.log(response.data)
+
+      return response.data; 
+    } 
+    catch (error: any) 
+    { 
+      return handleError(error, rejectWithValue); 
+    }
+  }
+);
+  
+export const searchImportedEmployees = createAsyncThunk<ApiEmployeePagingResponse, { importDate: string; page: number, pageSize: number }>
+  ('search/searchImportedRecords', async ({ importDate, page, pageSize } , { rejectWithValue }) => {
+    try     
+    {
+      const response = await axios.get(`/employees/imported?importDate=${importDate.split('T')[0]}&page=${page}&pageSize=${pageSize}`)
+      return response.data;
+    } 
+    catch (error: any) 
+    { 
+      return handleError(error, rejectWithValue); 
+    }
+})
+
