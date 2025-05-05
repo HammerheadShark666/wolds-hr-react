@@ -75,15 +75,11 @@ export const updateEmployeePhoto = createAsyncThunk('employee/updateEmployeePhot
   async ({ id, file }: { id: number; file: File }, { rejectWithValue, dispatch }) => {
   
     try 
-    {     
+    {      
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await axios.post(`/employees/upload-photo/${id}`, formData, {
-        headers: {
-          'Content-Type': undefined
-        }
-      }); 
+      const response = await axios.post(`/employees/upload-photo/${id}`, formData); 
 
       dispatch(updateEmployeePhotoInEmployees(response.data));
       return response.data; 
