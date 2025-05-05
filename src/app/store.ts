@@ -2,6 +2,7 @@ import employeeReducer from '../features/employee/employeeSlice';
 import employeeListReducer from '../features/employee/employeeListSlice';
 import employeeImportReducer from '../features/employee/employeeImportSlice';
 import departmentReducer from '../features/department/departmentSlice';
+import authenticationReducer from '../features/authentication/authenticationSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
@@ -9,7 +10,8 @@ const store = configureStore({
     employee: employeeReducer,
     employeeList: employeeListReducer,
     employeeImport: employeeImportReducer,
-    department: departmentReducer
+    department: departmentReducer,
+    authentication: authenticationReducer
   },
   devTools: process.env.NODE_ENV !== 'production',  
 });

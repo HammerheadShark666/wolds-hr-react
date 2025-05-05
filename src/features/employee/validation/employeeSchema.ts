@@ -1,8 +1,8 @@
 import { z } from "zod"; 
 
 export const employeeSchema = z.object({
-  surname: z.string().min(1, { message: 'Surname is required' }).max(25, { message: 'Surname must be less than 25 characters' }),
-  firstName: z.string().min(1, { message: 'First name is required' }).max(25, { message: 'First name must be less than 25 characters' }), 
+  surname: z.string().min(1, { message: 'Surname is required' }).max(25, { message: 'Surname must be less than or equal to 25 characters' }),
+  firstName: z.string().min(1, { message: 'First name is required' }).max(25, { message: 'First name must be less than or equal to 25 characters' }), 
   dateOfBirth: z
     .string() 
     .refine((val) => !isNaN(Date.parse(val)), {
@@ -19,7 +19,7 @@ export const employeeSchema = z.object({
     .optional(),  
   email: z
     .string()
-    .min(0).max(250, { message: 'Email must be less than 250 characters' })
+    .min(0).max(250, { message: 'Email must be less than or equal to 250 characters' })
     .email({ message: "Invalid email address" })
     .nullable()   
     .optional(),
@@ -30,7 +30,7 @@ export const employeeSchema = z.object({
    .optional(), 
    phoneNumber: z
    .string()
-   .min(0).max(25, { message: 'Phone number must be less than 25 characters' })
+   .min(0).max(25, { message: 'Phone number must be less than or equal to 25 characters' })
    .nullable()   
    .optional(),
 
