@@ -24,10 +24,30 @@ jobs:
           npm install
           npm run build
 
+      - name: Zip build artifact for deployment
+        run: |
+          cd build
+          zip -r ../release.zip .  # Zip the contents of the build directory
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-app
+          path: release.zip
+
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: react-app
+      
+      - name: Unzip artifact for deployment
+        run: unzip release.zip
+      
       - name: Deploy to Azure Web App
+        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'prod-ap-wolds-hr-fe'
           slot-name: 'Production'
+          package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E21D7E2FBDFA444CAAB90DE169EA1595 }}
-          package: ./build
