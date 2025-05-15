@@ -1,4 +1,4 @@
  
 export function getEmployeePhotoUrl(filename: string) : string { 
-  return `${process.env.REACT_APP_AZURE_STORAGE_URL}${process.env.REACT_APP_STORAGE_EMPLOYEES}/${filename}`; 
+  return `${window.env?.REACT_APP_AZURE_STORAGE_URL}${window.env?.REACT_APP_STORAGE_EMPLOYEES}/${filename}`; 
 }
